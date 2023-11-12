@@ -1,11 +1,7 @@
 const Colors = {
-  YellowF4: "#F4AF1B",
-  Blue00: "#00154F",
-  Violet1B: "#1B092C",
-  RedD5: "#D50000",
-  LightBlue00: "#003ADA",
-  WhiteF1: "#F1F3F5",
-  Green28: "#28a23f",
+  Black22: "#222222",
+  WhiteF0: "#f0f0f0",
+  WhiteB0: "#b0b0b0",
 };
 
 export default Colors;
