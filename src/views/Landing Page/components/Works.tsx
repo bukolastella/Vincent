@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Colors from "../../../styles/Colors";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CustomEase } from "gsap/CustomEase";
@@ -17,29 +17,12 @@ enum ClassNames {
 const Works = () => {
   const app = useRef<HTMLDivElement>(null);
   const ctx = useRef<gsap.Context>();
-  const [steps, setStep] = useState(worksData[0]);
 
   useLayoutEffect(() => {
     ctx.current = gsap.context((self) => {
-      // gsap
-      //   .timeline({
-      //     // paused: true,
-      //     defaults: {
-      //       duration: 10,
-      //     },
-      //   })
-      //   .to(`.${ClassNames.listHeadText}:first-of-type > span:nth-child(2)`, {
-      //     backgroundImage: "linear-gradient(90deg, #222222 100%, #f0f0f0 100%)",
-      //   });
-
       self.add("lhMouseEnter", (index: number) => {
-        gsap
-          .timeline({
-            defaults: {
-              overwrite: true,
-              ease: "linear",
-            },
-          })
+        const desTl = gsap
+          .timeline()
           .set(`.${ClassNames.Des}`, {
             opacity: 0,
           })
@@ -49,22 +32,28 @@ const Works = () => {
               opacity: 1,
             },
             "<"
-          )
+          );
+
+        const lhTl = gsap
+          .timeline()
           .to(
-            `.${ClassNames.listHeadText} > span:nth-child(2)`,
+            `.${ClassNames.listHeadText}`,
             {
               backgroundImage: "linear-gradient(90deg, #222222 0%, #f0f0f0 0%)",
             },
             "<"
           )
           .to(
-            `.${ClassNames.listHeadText}_${index} > span:nth-child(2)`,
+            `.${ClassNames.listHeadText}_${index}`,
             {
               backgroundImage:
                 "linear-gradient(90deg, #222222 100%, #f0f0f0 100%)",
             },
             "<"
-          )
+          );
+
+        const imagesTl = gsap
+          .timeline()
           .to(
             `.${ClassNames.imageText}`,
             {
@@ -81,6 +70,17 @@ const Works = () => {
             },
             "<"
           );
+
+        gsap
+          .timeline({
+            defaults: {
+              overwrite: true,
+              ease: "linear",
+            },
+          })
+          .add(desTl, "<")
+          .add(lhTl, "<")
+          .add(imagesTl, "<");
       });
     }, app);
 
@@ -99,14 +99,16 @@ const Works = () => {
             {worksData.map((ev, i) => (
               <div>
                 <ListHead
-                  className={`${ClassNames.listHeadText} ${ClassNames.listHeadText}_${i}`}
                   onMouseEnter={() => {
                     lhMouseEnter(i);
-                    setStep(ev);
                   }}
                 >
                   <span>{ev.text1}</span>
-                  <span>{ev.text2}</span>
+                  <span
+                    className={`${ClassNames.listHeadText} ${ClassNames.listHeadText}_${i}`}
+                  >
+                    {ev.text2}
+                  </span>
                 </ListHead>
                 <span className={`${ClassNames.Des} ${ClassNames.Des}_${i}`}>
                   Lorem ipsum dolor sit amet elit.
