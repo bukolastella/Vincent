@@ -132,6 +132,7 @@ const Wrapper = styled.div`
     width: 100%;
     height: 100vh;
     background-color: red;
+    margin-top: -200vh;
   }
 `;
 
