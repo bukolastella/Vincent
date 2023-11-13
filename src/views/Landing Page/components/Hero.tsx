@@ -11,6 +11,9 @@ gsap.registerPlugin(ScrollTrigger, CustomEase);
 enum ClassNames {
   Panel1Text = "text_1",
   Panel2Text = "text_2",
+  Panel3 = "panel_3",
+  Panel4 = "panel_4",
+  Panel4Text = "text_4",
 }
 
 const Hero = () => {
@@ -67,6 +70,22 @@ const Hero = () => {
             ease: "power1.inOut",
           },
           "<"
+        )
+        .from(`.${ClassNames.Panel3}`, {
+          xPercent: 100,
+        })
+        .from(`.${ClassNames.Panel4}`, {
+          xPercent: 100,
+        })
+        .fromTo(
+          `.${ClassNames.Panel4Text} > div`,
+          {
+            xPercent: gsap.utils.wrap([100, -100]),
+          },
+          {
+            xPercent: gsap.utils.wrap([-100, 30]),
+          },
+          ">-50%"
         );
 
       ScrollTrigger.create({
@@ -85,12 +104,21 @@ const Hero = () => {
   return (
     <Wrapper ref={app}>
       <ScrollWrapper className="scroll-wrapper">
-        <Panel1>
-          <span className={ClassNames.Panel1Text}>Vincent</span>
-        </Panel1>
-        <Panel2 className={ClassNames.Panel2Text}>Vincent</Panel2>
-        {/* <span className="spacer"></span> */}
+        <MiniWrapper>
+          <Panel1>
+            <span className={ClassNames.Panel1Text}>Vincent</span>
+          </Panel1>
+          <Panel2 className={ClassNames.Panel2Text}>Vincent</Panel2>
+          <Panel3 className={ClassNames.Panel3}>Saisset</Panel3>
+          <Panel4 className={ClassNames.Panel4}>
+            <div className={ClassNames.Panel4Text}>
+              <div>Interactive</div>
+              <div>Developer</div>
+            </div>
+          </Panel4>
+        </MiniWrapper>
       </ScrollWrapper>
+      <div className="spacerrr"></div>
     </Wrapper>
   );
 };
@@ -99,9 +127,20 @@ export default Hero;
 
 const Wrapper = styled.div`
   height: 100vh;
+
+  .spacerrr {
+    width: 100%;
+    height: 100vh;
+    background-color: red;
+  }
 `;
 
 const ScrollWrapper = styled.div`
+  width: 100%;
+  height: 300vh;
+`;
+
+const MiniWrapper = styled.div`
   position: relative;
   font-size: 20rem;
   font-weight: bold;
@@ -110,10 +149,6 @@ const ScrollWrapper = styled.div`
   height: 100vh;
   background-color: ${Colors.Black22};
   z-index: 1;
-
-  .spacer {
-    height: 100vh;
-  }
 `;
 
 const Panel1 = styled.div`
@@ -137,7 +172,50 @@ const Panel2 = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  color: white;
+  color: ${Colors.Black22};
   overflow: hidden;
-  background-color: #ff000047;
+  background-color: ${Colors.WhiteF0};
+`;
+
+const Panel3 = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: ${Colors.WhiteF0};
+  overflow: hidden;
+  background-color: transparent;
+`;
+
+const Panel4 = styled.div`
+  position: absolute;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  /* gap: 300px; */
+
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: ${Colors.WhiteF0};
+  overflow: hidden;
+  background-color: ${Colors.Black22};
+
+  .text_4 {
+    transform: rotate(-90deg);
+
+    /* & > div:nth-child(1) {
+    margin-right: 500px;
+  }
+
+  & > div:nth-child(2) {
+    margin-left: 500px;
+    transform: rotate(-90deg);
+  } */
+  }
 `;
