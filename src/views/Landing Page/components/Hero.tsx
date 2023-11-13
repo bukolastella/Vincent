@@ -118,7 +118,6 @@ const Hero = () => {
           </Panel4>
         </MiniWrapper>
       </ScrollWrapper>
-      <div className="spacerrr"></div>
     </Wrapper>
   );
 };
@@ -126,14 +125,7 @@ const Hero = () => {
 export default Hero;
 
 const Wrapper = styled.div`
-  height: 100vh;
-
-  .spacerrr {
-    width: 100%;
-    height: 100vh;
-    background-color: red;
-    margin-top: -200vh;
-  }
+  height: 400vh;
 `;
 
 const ScrollWrapper = styled.div`
