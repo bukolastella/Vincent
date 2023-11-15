@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Colors from "../../../styles/Colors";
-import { useLayoutEffect, useRef } from "react";
+import { FC, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CustomEase } from "gsap/CustomEase";
@@ -14,12 +14,33 @@ enum ClassNames {
   imageText = "images",
 }
 
-const Works = () => {
+interface Props {
+  tl: GSAPTimeline;
+}
+
+const Works: FC<Props> = ({ tl }) => {
   const app = useRef<HTMLDivElement>(null);
   const ctx = useRef<gsap.Context>();
 
   useLayoutEffect(() => {
     ctx.current = gsap.context((self) => {
+      tl.fromTo(
+        ".left",
+        {
+          yPercent: 120,
+        },
+        {
+          yPercent: -120,
+        },
+        ">-50%"
+      ).from(
+        ".right",
+        {
+          yPercent: 20,
+        },
+        "<"
+      );
+
       self.add("lhMouseEnter", (index: number) => {
         const desTl = gsap
           .timeline()
@@ -85,7 +106,7 @@ const Works = () => {
     }, app);
 
     return () => ctx.current?.revert();
-  }, []);
+  }, [tl]);
 
   const lhMouseEnter = (index: number) => {
     ctx.current?.lhMouseEnter(index);
@@ -93,39 +114,38 @@ const Works = () => {
 
   return (
     <Wrapper ref={app}>
-      <ScrollWrapper>
-        <Flexxer>
-          <LeftSide>
-            {worksData.map((ev, i) => (
-              <div>
-                <ListHead
-                  onMouseEnter={() => {
-                    lhMouseEnter(i);
-                  }}
+      <Flexxer>
+        <LeftSide className="left">
+          {worksData.map((ev, i) => (
+            <div key={i}>
+              <ListHead
+                onMouseEnter={() => {
+                  lhMouseEnter(i);
+                }}
+              >
+                <span>{ev.text1}</span>
+                <span
+                  className={`${ClassNames.listHeadText} ${ClassNames.listHeadText}_${i}`}
                 >
-                  <span>{ev.text1}</span>
-                  <span
-                    className={`${ClassNames.listHeadText} ${ClassNames.listHeadText}_${i}`}
-                  >
-                    {ev.text2}
-                  </span>
-                </ListHead>
-                <span className={`${ClassNames.Des} ${ClassNames.Des}_${i}`}>
-                  Lorem ipsum dolor sit amet elit.
+                  {ev.text2}
                 </span>
-              </div>
-            ))}
-          </LeftSide>
-          <RightSide>
-            {worksData.map((ev, i) => (
-              <img
-                src={ev.image}
-                className={`${ClassNames.imageText} ${ClassNames.imageText}_${i}`}
-              />
-            ))}
-          </RightSide>
-        </Flexxer>
-      </ScrollWrapper>
+              </ListHead>
+              <span className={`${ClassNames.Des} ${ClassNames.Des}_${i}`}>
+                Lorem ipsum dolor sit amet elit.
+              </span>
+            </div>
+          ))}
+        </LeftSide>
+        <RightSide className="right">
+          {worksData.map((ev, i) => (
+            <img
+              key={i}
+              src={ev.image}
+              className={`${ClassNames.imageText} ${ClassNames.imageText}_${i}`}
+            />
+          ))}
+        </RightSide>
+      </Flexxer>
     </Wrapper>
   );
 };
@@ -134,14 +154,12 @@ export default Works;
 
 const Wrapper = styled.div`
   width: 100%;
-  background-color: ${Colors.WhiteF0};
-  height: 1000px;
-  padding: 10rem 5rem;
-`;
-
-const ScrollWrapper = styled.div`
-  width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: ${Colors.WhiteF0};
+  padding: 10rem 5rem;
 `;
 
 const Flexxer = styled.div`

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Colors from "../../../styles/Colors";
-import { useLayoutEffect, useRef } from "react";
+import { FC, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import SplitType from "split-type";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -16,7 +16,11 @@ enum ClassNames {
   Panel4Text = "text_4",
 }
 
-const Hero = () => {
+interface Props {
+  tl: GSAPTimeline;
+}
+
+const Hero: FC<Props> = ({ tl }) => {
   const app = useRef<HTMLDivElement>(null);
   const ctx = useRef<gsap.Context>();
 
@@ -33,20 +37,16 @@ const Hero = () => {
       }).chars;
       if (!splitPanel1Text || !splitPanel2Text) return;
 
-      const tl = gsap
-        .timeline({
-          // paused: true,
-        })
-        .fromTo(
-          Panel2Text,
-          {
-            clipPath: "inset(0% 0% 0% 100%)",
-          },
-          {
-            clipPath: "inset(0% 0% 0% 0%)",
-            animationDirection: "forwards",
-          }
-        )
+      tl.fromTo(
+        Panel2Text,
+        {
+          clipPath: "inset(0% 0% 0% 100%)",
+        },
+        {
+          clipPath: "inset(0% 0% 0% 0%)",
+          animationDirection: "forwards",
+        }
+      )
         .from(
           splitPanel1Text,
           {
@@ -83,41 +83,37 @@ const Hero = () => {
             xPercent: gsap.utils.wrap([100, -100]),
           },
           {
-            xPercent: gsap.utils.wrap([-100, 30]),
+            xPercent: gsap.utils.wrap([-100, 25]),
           },
           ">-50%"
+        )
+        .to(
+          app.current,
+          {
+            yPercent: -100,
+          },
+          ">-40%"
         );
-
-      ScrollTrigger.create({
-        trigger: ".scroll-wrapper",
-        start: "top top",
-        markers: true,
-        scrub: 1,
-        pin: true,
-        animation: tl,
-      });
     }, app);
 
     return () => ctx.current?.revert();
-  }, []);
+  }, [tl]);
 
   return (
     <Wrapper ref={app}>
-      <ScrollWrapper className="scroll-wrapper">
-        <MiniWrapper>
-          <Panel1>
-            <span className={ClassNames.Panel1Text}>Vincent</span>
-          </Panel1>
-          <Panel2 className={ClassNames.Panel2Text}>Vincent</Panel2>
-          <Panel3 className={ClassNames.Panel3}>Saisset</Panel3>
-          <Panel4 className={ClassNames.Panel4}>
-            <div className={ClassNames.Panel4Text}>
-              <div>Interactive</div>
-              <div>Developer</div>
-            </div>
-          </Panel4>
-        </MiniWrapper>
-      </ScrollWrapper>
+      <MiniWrapper>
+        <Panel1>
+          <span className={ClassNames.Panel1Text}>Vincent</span>
+        </Panel1>
+        <Panel2 className={ClassNames.Panel2Text}>Vincent</Panel2>
+        <Panel3 className={ClassNames.Panel3}>Saisset</Panel3>
+        <Panel4 className={ClassNames.Panel4}>
+          <div className={ClassNames.Panel4Text}>
+            <div>Interactive</div>
+            <div>Developer</div>
+          </div>
+        </Panel4>
+      </MiniWrapper>
     </Wrapper>
   );
 };
@@ -125,12 +121,12 @@ const Hero = () => {
 export default Hero;
 
 const Wrapper = styled.div`
-  height: 400vh;
-`;
-
-const ScrollWrapper = styled.div`
   width: 100%;
-  height: 300vh;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
 `;
 
 const MiniWrapper = styled.div`
