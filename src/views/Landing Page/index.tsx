@@ -3,6 +3,7 @@ import Hero from "./components/Hero";
 import Works from "./components/Works";
 import styled from "styled-components";
 import gsap from "gsap";
+import About from "./components/About";
 
 const LandingPage = () => {
   const [tl, setTl] = useState<GSAPTimeline>();
@@ -14,7 +15,7 @@ const LandingPage = () => {
           trigger: ".scroll-wrapper",
           start: "top top",
           end: "+=10000",
-          markers: true,
+          // markers: true,
           pin: true,
           scrub: 1,
         },
@@ -31,6 +32,7 @@ const LandingPage = () => {
           <>
             <Hero tl={tl} />
             <Works tl={tl} />
+            <About tl={tl} />
           </>
         )}
       </ScrollWrapper>
@@ -53,5 +55,4 @@ const ScrollWrapper = styled.div`
   top: 0;
   left: 0;
   overflow: hidden;
-  background-color: aqua;
 `;

@@ -2,11 +2,7 @@ import styled from "styled-components";
 import Colors from "../../../styles/Colors";
 import { FC, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { CustomEase } from "gsap/CustomEase";
 import { worksData } from "./data";
-
-gsap.registerPlugin(ScrollTrigger, CustomEase);
 
 enum ClassNames {
   listHeadText = "lh_text",
@@ -30,7 +26,7 @@ const Works: FC<Props> = ({ tl }) => {
           yPercent: 120,
         },
         {
-          yPercent: -120,
+          yPercent: -130,
         },
         ">-50%"
       ).from(

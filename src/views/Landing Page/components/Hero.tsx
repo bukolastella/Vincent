@@ -3,10 +3,6 @@ import Colors from "../../../styles/Colors";
 import { FC, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import SplitType from "split-type";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { CustomEase } from "gsap/CustomEase";
-
-gsap.registerPlugin(ScrollTrigger, CustomEase);
 
 enum ClassNames {
   Panel1Text = "text_1",
